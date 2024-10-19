@@ -2,11 +2,9 @@ function deepClone(obj) {
     if (obj === null || typeof obj !== 'object') {
         return obj;
     }
-
     if (Array.isArray(obj)) {
         return obj.map(item => deepClone(item));
     }
-
     let clonedObj = {};
     for (let key in obj) {
         if (obj.hasOwnProperty(key)) {
@@ -16,17 +14,22 @@ function deepClone(obj) {
     return clonedObj;
 }
 
-let student = {
-    name: "Alice",
-    details: { age: 25, hobbies: ["reading", "cycling"] }
-};
+const readline = require('readline');
+const rl = readline.createInterface({
+    input: process.stdin,
+    output: process.stdout
+});
 
-try {
-    let copy = deepClone(student);
-    copy.details.age = 30;
-
-    console.log(student.details.age);
-    console.log(copy.details.age);
-} catch (error) {
-    console.error(error.message);
-}
+rl.question("Enter a JSON object to clone: ", (inputObj) => {
+    try {
+        const obj = JSON.parse(inputObj);
+        if (typeof obj !== 'object' || obj === null) throw new Error("Input must be a valid JSON object!");
+        let copy = deepClone(obj);
+        console.log("Original object:", obj);
+        console.log("Cloned object:", copy);
+    } catch (error) {
+        console.error(error.message);
+    } finally {
+        rl.close();
+    }
+});

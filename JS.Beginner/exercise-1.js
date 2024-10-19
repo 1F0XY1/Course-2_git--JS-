@@ -1,21 +1,29 @@
-function sumOfTwo (a, b) {
-    if (typeof a != "number" || typeof b != "number") throw new Error ("Input numbers! (Integers or Float)");
+function sumOfTwo(a, b) {
+    if (typeof a !== "number" || isNaN(a) || typeof b !== "number" || isNaN(b)) throw new Error("Input numbers! (Integers or Float)");
     return a + b;
 }
 
-try {
-    console.log(sumOfTwo("3", 6)); 
-} catch (error) {
-    console.error(error.message); 
-}
+console.log();
+console.log("----------SUM OF TWO NUMS------------------");
+console.log();
 
-try {
-    console.log(sumOfTwo(3, 6)); 
-} catch (error) {
-    console.error(error.message); 
-}
-try {
-    console.log(sumOfTwo(3.7, 6)); 
-} catch (error) {
-    console.error(error.message); 
-}
+const readline = require('readline');
+
+const rl = readline.createInterface({
+    input: process.stdin,
+    output: process.stdout
+});
+
+rl.question("Enter the first number: ", (inputA) => {
+    rl.question("Enter the second number: ", (inputB) => {
+        try {
+            const numA = parseFloat(inputA);
+            const numB = parseFloat(inputB);
+            console.log(`Result: ${sumOfTwo(numA, numB)}`);
+        } catch (error) {
+            console.error(error.message);
+        } finally {
+            rl.close();
+        }
+    });
+});

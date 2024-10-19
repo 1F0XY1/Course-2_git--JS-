@@ -1,24 +1,26 @@
-function largestNumber(nums){
-    if (!(Array.isArray(nums))) throw new Error("Input array!"); 
+function largestNumber(nums) {
+    if (!Array.isArray(nums)) throw new Error("Input array!");
     let mx = -1e9;
-    for (var i = 0; i < nums.length; i++) mx = Math.max(mx, nums[i]);
+    for (var i = 0; i < nums.length; i++) {
+        if (typeof nums[i] !== "number" || isNaN(nums[i])) throw new Error("Array elements must be numbers!");
+        mx = Math.max(mx, nums[i]);
+    }
     return mx;
 }
 
-try {
-    console.log(largestNumber([1, 5, 32, 6, 4, 9]));
-} catch (error ){
-    console.error(error.message);
-}
+const readline = require('readline');
+const rl = readline.createInterface({
+    input: process.stdin,
+    output: process.stdout
+});
 
-try {
-    console.log(largestNumber([7]));
-} catch (error ){
-    console.error(error.message);
-}
-
-try {
-    console.log(largestNumber(7));
-} catch (error ){
-    console.error(error.message);
-}
+rl.question("Enter numbers separated by commas: ", (inputNums) => {
+    try {
+        const numsArray = inputNums.split(',').map(num => parseFloat(num.trim()));
+        console.log(`Largest number: ${largestNumber(numsArray)}`);
+    } catch (error) {
+        console.error(error.message);
+    } finally {
+        rl.close();
+    }
+});

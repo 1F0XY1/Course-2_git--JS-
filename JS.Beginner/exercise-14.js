@@ -1,26 +1,30 @@
-function removeDuplicates(nums){
-    if (!(Array.isArray(nums))) throw new Error("Enter array!");
-    if (nums.length == 0) return;
-
+function removeDuplicates(nums) {
+    if (!Array.isArray(nums)) throw new Error("Enter array!");
+    if (nums.length === 0) return;
     nums.sort();
     let res = [nums[0]];
-    for (var i = 1; i < nums.length; i++) if (nums[i] != res[res.length - 1]) res.push(nums[i]);
+    for (var i = 1; i < nums.length; i++) {
+        if (nums[i] !== res[res.length - 1]) res.push(nums[i]);
+    }
     nums.length = 0;
-    for (x in res) nums.push(x);
+    for (let x of res) nums.push(x);
 }
 
-let arr = [1,1,6,7,3,6,8,2,0,9,10,3,3,6,34,5];
-try {
-    removeDuplicates(arr);
-} catch(error){
-    console.error(error.message);
-}
+const readline = require('readline');
+const rl = readline.createInterface({
+    input: process.stdin,
+    output: process.stdout
+});
 
-for (var i = 0; i < arr.length; i++) console.log(arr[i]);
-
-
-try {
-    removeDuplicates("[1, 2, 3, 6, 6]");
-} catch(error){
-    console.error(error.message);
-}
+rl.question("Enter numbers separated by commas: ", (inputNums) => {
+    try {
+        const numsArray = inputNums.split(',').map(num => parseFloat(num.trim()));
+        if (!numsArray.every(num => !isNaN(num))) throw new Error("Array elements must be numbers!");
+        removeDuplicates(numsArray);
+        console.log("Array after removing duplicates: ", numsArray);
+    } catch (error) {
+        console.error(error.message);
+    } finally {
+        rl.close();
+    }
+});

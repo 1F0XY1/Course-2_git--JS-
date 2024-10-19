@@ -1,29 +1,26 @@
-function sumOfArray(nums){
-    if (!(Array.isArray(nums))) throw new Error("This is not an array!");
+function sumOfArray(nums) {
+    if (!Array.isArray(nums)) throw new Error("This is not an array!");
     var sum = 0;
-    for (var i = 0; i < nums.length; i++) sum += nums[i];
+    for (var i = 0; i < nums.length; i++) {
+        if (typeof nums[i] !== "number" || isNaN(nums[i])) throw new Error("Array elements must be numbers!");
+        sum += nums[i];
+    }
     return sum;
 }
 
-try{
-    console.log(sumOfArray([1,2,3,4,5,6,7,8,9,10]))
-} catch(error){
-    console.error(error.message);
-}
+const readline = require('readline');
+const rl = readline.createInterface({
+    input: process.stdin,
+    output: process.stdout
+});
 
-try{
-    console.log(sumOfArray([8]))
-} catch(error){
-    console.error(error.message);
-}
-
-try{
-    console.log(sumOfArray("[1,2,3,4,5,6,7,8,9,10]"))
-} catch(error){
-    console.error(error.message);
-}
-try{
-    console.log(sumOfArray(8))
-} catch(error){
-    console.error(error.message);
-}
+rl.question("Enter numbers separated by commas: ", (inputNums) => {
+    try {
+        const numsArray = inputNums.split(',').map(num => parseFloat(num.trim()));
+        console.log(`Sum of array: ${sumOfArray(numsArray)}`);
+    } catch (error) {
+        console.error(error.message);
+    } finally {
+        rl.close();
+    }
+});
